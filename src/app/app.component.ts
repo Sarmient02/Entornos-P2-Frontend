@@ -1,15 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
-import { InputTextModule } from 'primeng/inputtext';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
+    template: `<router-outlet></router-outlet>`,
     standalone: true,
-    imports: [InputTextModule, CheckboxModule, ButtonModule]
+    imports: [RouterOutlet, CommonModule]
 })
-export class AppComponent {
-  title = 'entornos-p2-frontend';
-}
+export class AppComponent {}

@@ -1,0 +1,17 @@
+<!-- Header -->
+<p-menubar [model]="items">
+  <ng-template pTemplate="start" >
+      <img src="https://primefaces.org/cdn/primeng/images/primeng.svg" height="40" class="mr-5"/>
+  </ng-template>
+  <ng-template pTemplate="end">
+      <div (click)="avatarMenu.toggle($event)" class="cursor-pointer">
+        <p-avatar icon="pi pi-user" shape="square" size="large"></p-avatar>
+      </div>
+      <p-tieredMenu #avatarMenu [model]="items2" [popup]="true"></p-tieredMenu>
+  </ng-template>
+</p-menubar>
+
+<!-- Content -->
+<main>
+      <router-outlet></router-outlet>
+</main>
