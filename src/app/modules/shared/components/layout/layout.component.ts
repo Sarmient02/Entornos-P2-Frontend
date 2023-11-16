@@ -13,7 +13,10 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { Router } from '@angular/router';
-
+import { Subscription } from 'rxjs';
+import { StorageService } from 'src/app/services/storage.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { EventBusService } from 'src/app/services/event-bus.service';
 
 @Component({
   selector: 'app-layout',
@@ -25,9 +28,18 @@ import { Router } from '@angular/router';
 })
 export class LayoutComponent {
 
-    constructor(private router: Router) { }
+  private roles: string[] = [];
+  showAdminBoard = false;
+  username?: string;
 
-    
+  eventBusSub?: Subscription;
+
+  constructor(
+    private router: Router,
+    private storageService: StorageService,
+    private authService: AuthService,
+    private eventBusService: EventBusService
+    ) { }
 
   items: MenuItem[] | undefined;
   items2: MenuItem[] | undefined;
@@ -76,17 +88,105 @@ export class LayoutComponent {
         }
       ];
 
-      this.items2 = [
-        {
-          label: 'Iniciar Sesión',
-          icon: 'material-symbols-rounded login',
-          routerLink: '/auth/login',
-        },
-        {
-            label: 'Registrarse',
-            icon: 'material-symbols-rounded account_box',
-            routerLink: '/auth/register',
+      if (this.storageService.isLoggedIn()) {
+        const user = this.storageService.getUser();
+        this.roles = user.roles;
+  
+        this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+  
+        this.username = user.username;
+      }
+
+      this.eventBusSub = this.eventBusService.on('logout', () => {
+        this.logout();
+      });
+
+      if (this.storageService.isLoggedIn()) {
+        this.items2 = [
+          {
+            label: 'Mi Perfil',
+            icon: 'material-symbols-rounded account_circle',
+            routerLink: '/profile',
+          },
+          {
+            label: 'Cerrar Sesión',
+            icon: 'material-symbols-rounded logout',
+            command: () => this.logout(),
           }
-      ];
+        ];
+        return;
+      } else {
+        this.items2 = [
+            {
+              label: 'Iniciar Sesión',
+              icon: 'material-symbols-rounded login',
+              routerLink: '/auth/login',
+            },
+            {
+                label: 'Registrarse',
+                icon: 'material-symbols-rounded account_box',
+                routerLink: '/auth/register',
+              }
+          ];
+      }
+      
+  }
+
+  ngOnChanges() {
+    if (this.storageService.isLoggedIn()) {
+        const user = this.storageService.getUser();
+        this.roles = user.roles;
+  
+        this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+  
+        this.username = user.username;
+      }
+
+      this.eventBusSub = this.eventBusService.on('logout', () => {
+        this.logout();
+      });
+
+      if (this.storageService.isLoggedIn()) {
+        this.items2 = [
+          {
+            label: 'Mi Perfil',
+            icon: 'material-symbols-rounded account_circle',
+            routerLink: '/profile',
+          },
+          {
+            label: 'Cerrar Sesión',
+            icon: 'material-symbols-rounded logout',
+            command: () => this.logout(),
+          }
+        ];
+        return;
+      } else {
+        this.items2 = [
+            {
+              label: 'Iniciar Sesión',
+              icon: 'material-symbols-rounded login',
+              routerLink: '/auth/login',
+            },
+            {
+                label: 'Registrarse',
+                icon: 'material-symbols-rounded account_box',
+                routerLink: '/auth/register',
+              }
+          ];
+      }
+  }
+
+  logout(): void {
+    this.authService.logout().subscribe({
+      next: res => {
+        console.log(res);
+        this.storageService.clean();
+
+        window.location.reload();
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
 }

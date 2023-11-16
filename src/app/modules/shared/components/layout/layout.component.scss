@@ -23,3 +23,11 @@
 :host ::ng-deep .content_copy::before{
     content: "content_copy";
 }
+
+:host ::ng-deep .logout::before{
+    content: "logout";
+}
+
+:host ::ng-deep .account_circle::before{
+    content: "account_circle";
+}
