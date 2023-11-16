@@ -69,6 +69,7 @@ export class LayoutComponent {
         {
           label: 'Iniciar Sesión',
           icon: 'pi pi-fw pi-user',
+          routerLink: ['auth/login']
         }
       ];
   }
