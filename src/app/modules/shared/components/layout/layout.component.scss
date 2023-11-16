@@ -1,4 +1,25 @@
 :host ::ng-deep .p-menubar{
     background-color: white;
     border: none;
+    margin: 0;
+}
+
+:host ::ng-deep .login::before{
+    content: "login";
+}
+
+:host ::ng-deep .logout::before{
+    content: "login";
+}
+
+:host ::ng-deep .account_box::before{
+    content: "account_box";
+}
+
+:host ::ng-deep .home::before{
+    content: "home";
+}
+
+:host ::ng-deep .content_copy::before{
+    content: "content_copy";
 }
