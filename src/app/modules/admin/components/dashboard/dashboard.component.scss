@@ -1,0 +1,25 @@
+.menu-width{
+    width: 300px;
+}
+
+@media (max-width: 768px) {
+    .menu-width{
+        width: 300px;
+    }
+}
+
+:host ::ng-deep .manage_accounts::before{
+    content: "manage_accounts";
+}
+
+:host ::ng-deep .person_add{
+    color: #00e08f;
+}
+
+:host ::ng-deep .person_add::before{
+    content: "person_add";
+}
+
+.xd {
+    background-color: #00e08f;
+}

@@ -13,7 +13,10 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { Router } from '@angular/router';
-
+import { Subscription } from 'rxjs';
+import { StorageService } from 'src/app/services/storage.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { EventBusService } from 'src/app/services/event-bus.service';
 
 @Component({
   selector: 'app-layout',
@@ -25,15 +28,26 @@ import { Router } from '@angular/router';
 })
 export class LayoutComponent {
 
-    constructor(private router: Router) { }
+  private roles: string[] = [];
+  isAdmin = false;
+  username?: string;
 
-    
+  eventBusSub?: Subscription;
 
-  items: MenuItem[] | undefined;
-  items2: MenuItem[] | undefined;
+  roleSub?: Subscription;
+
+  constructor(
+    private router: Router,
+    public storageService: StorageService,
+    private authService: AuthService,
+    private eventBusService: EventBusService
+    ) { }
+
+  menu: MenuItem[] | undefined;
+  options: MenuItem[] | undefined;
 
   ngOnInit() {
-      this.items = [
+      this.menu = [
           {
               label: 'Inicio',
               icon: 'material-symbols-rounded home',
@@ -76,17 +90,72 @@ export class LayoutComponent {
         }
       ];
 
-      this.items2 = [
-        {
-          label: 'Iniciar Sesión',
-          icon: 'material-symbols-rounded login',
-          routerLink: '/auth/login',
-        },
-        {
-            label: 'Registrarse',
-            icon: 'material-symbols-rounded account_box',
-            routerLink: '/auth/register',
+      if (this.storageService.isLoggedIn()) {
+        
+      }
+
+      this.eventBusSub = this.eventBusService.on('logout', () => {
+        this.logout();
+      });
+
+      this.roleSub = this.eventBusService.on('roleChange', () => {
+        this.ngOnInit();
+      });
+
+      if (this.storageService.isLoggedIn()) {
+        
+        const user = this.storageService.getUser();
+        this.roles = user.roles;
+        this.isAdmin = this.roles.includes('ROLE_ADMIN');
+        this.username = user.username;
+
+        this.options = [
+          {
+            label: 'Mi Perfil',
+            icon: 'material-symbols-rounded account_circle',
+            routerLink: '/profile',
+          },
+          {
+            label: 'Cerrar Sesión',
+            icon: 'material-symbols-rounded logout',
+            command: () => this.logout(),
           }
-      ];
+        ];
+        if (this.isAdmin){
+          this.menu.push({
+            label: 'Administrar',
+            icon: 'material-symbols-rounded admin_panel_settings',
+            routerLink: '/admin',
+          });
+        }
+      } else {
+        this.options = [
+            {
+              label: 'Iniciar Sesión',
+              icon: 'material-symbols-rounded login',
+              routerLink: '/auth/login',
+            },
+            {
+                label: 'Registrarse',
+                icon: 'material-symbols-rounded account_box',
+                routerLink: '/auth/register',
+              }
+          ];
+      }
+    
+  }
+
+  logout(): void {
+    this.authService.logout().subscribe({
+      next: res => {
+        console.log(res);
+        this.storageService.clean();
+
+        window.location.reload();
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
 }
