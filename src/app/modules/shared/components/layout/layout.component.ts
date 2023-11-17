@@ -29,23 +29,25 @@ import { EventBusService } from 'src/app/services/event-bus.service';
 export class LayoutComponent {
 
   private roles: string[] = [];
-  showAdminBoard = false;
+  isAdmin = false;
   username?: string;
 
   eventBusSub?: Subscription;
 
+  roleSub?: Subscription;
+
   constructor(
     private router: Router,
-    private storageService: StorageService,
+    public storageService: StorageService,
     private authService: AuthService,
     private eventBusService: EventBusService
     ) { }
 
-  items: MenuItem[] | undefined;
-  items2: MenuItem[] | undefined;
+  menu: MenuItem[] | undefined;
+  options: MenuItem[] | undefined;
 
   ngOnInit() {
-      this.items = [
+      this.menu = [
           {
               label: 'Inicio',
               icon: 'material-symbols-rounded home',
@@ -89,20 +91,25 @@ export class LayoutComponent {
       ];
 
       if (this.storageService.isLoggedIn()) {
-        const user = this.storageService.getUser();
-        this.roles = user.roles;
-  
-        this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
-  
-        this.username = user.username;
+        
       }
 
       this.eventBusSub = this.eventBusService.on('logout', () => {
         this.logout();
       });
 
+      this.roleSub = this.eventBusService.on('roleChange', () => {
+        this.ngOnInit();
+      });
+
       if (this.storageService.isLoggedIn()) {
-        this.items2 = [
+        
+        const user = this.storageService.getUser();
+        this.roles = user.roles;
+        this.isAdmin = this.roles.includes('ROLE_ADMIN');
+        this.username = user.username;
+
+        this.options = [
           {
             label: 'Mi Perfil',
             icon: 'material-symbols-rounded account_circle',
@@ -114,9 +121,15 @@ export class LayoutComponent {
             command: () => this.logout(),
           }
         ];
-        return;
+        if (this.isAdmin){
+          this.menu.push({
+            label: 'Administrar',
+            icon: 'material-symbols-rounded admin_panel_settings',
+            routerLink: '/admin',
+          });
+        }
       } else {
-        this.items2 = [
+        this.options = [
             {
               label: 'Iniciar Sesión',
               icon: 'material-symbols-rounded login',
@@ -129,51 +142,7 @@ export class LayoutComponent {
               }
           ];
       }
-      
-  }
-
-  ngOnChanges() {
-    if (this.storageService.isLoggedIn()) {
-        const user = this.storageService.getUser();
-        this.roles = user.roles;
-  
-        this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
-  
-        this.username = user.username;
-      }
-
-      this.eventBusSub = this.eventBusService.on('logout', () => {
-        this.logout();
-      });
-
-      if (this.storageService.isLoggedIn()) {
-        this.items2 = [
-          {
-            label: 'Mi Perfil',
-            icon: 'material-symbols-rounded account_circle',
-            routerLink: '/profile',
-          },
-          {
-            label: 'Cerrar Sesión',
-            icon: 'material-symbols-rounded logout',
-            command: () => this.logout(),
-          }
-        ];
-        return;
-      } else {
-        this.items2 = [
-            {
-              label: 'Iniciar Sesión',
-              icon: 'material-symbols-rounded login',
-              routerLink: '/auth/login',
-            },
-            {
-                label: 'Registrarse',
-                icon: 'material-symbols-rounded account_box',
-                routerLink: '/auth/register',
-              }
-          ];
-      }
+    
   }
 
   logout(): void {

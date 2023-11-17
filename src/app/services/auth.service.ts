@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 
-import { LoginRTA } from '../models/auth.model';
+import { LoginRTA, RegisterForm } from '../models/auth.model';
 import { User } from '../models/user.model';
 import { TokenService } from '../services/token.service';
 
@@ -31,6 +31,14 @@ export class AuthService {
       tap(response => this.tokenService.saveRefreshToken(response.refreshToken)),
       tap(response => this.authState.next(response))
     )
+  }
+
+  register(registro: RegisterForm) {
+    const options = {
+      withCredentials: true // Asegúrate de incluir las credenciales en la solicitud
+    };
+    const url = `${this.API_URL}/auth/signup`;
+    return this.http.post<any>(url, registro, options)
   }
 
   setAuthState(user: User | null) {

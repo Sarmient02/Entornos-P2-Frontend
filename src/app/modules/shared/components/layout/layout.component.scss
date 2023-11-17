@@ -31,3 +31,7 @@
 :host ::ng-deep .account_circle::before{
     content: "account_circle";
 }
+
+:host ::ng-deep .admin_panel_settings::before{
+    content: "admin_panel_settings";
+}

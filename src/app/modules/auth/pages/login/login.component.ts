@@ -7,15 +7,17 @@ import { CardModule } from 'primeng/card';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 import { AuthService } from '../../../../services/auth.service';
 import { StorageService } from '../../../../services/storage.service';
+import { EventBusService } from 'src/app/services/event-bus.service';
+import { EventData } from 'src/app/services/event.class';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, CheckboxModule, InputTextModule, ButtonModule, CardModule, ReactiveFormsModule, PasswordModule],
+  imports: [CommonModule, CheckboxModule, InputTextModule, ButtonModule, CardModule, ReactiveFormsModule, PasswordModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -23,10 +25,12 @@ export class LoginComponent {
 
   isLoggedIn = false;
   isLoginFailed = false;
-  errorMessage = '';
   roles: string[] = [];
 
-  constructor(private storageService: StorageService) { }
+  constructor(
+    private storageService: StorageService,
+    private eventBusService: EventBusService
+  ) { }
 
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {
@@ -57,6 +61,7 @@ export class LoginComponent {
             this.isLoginFailed = false;
             this.isLoggedIn = true;
             this.roles = this.storageService.getUser().roles;
+            this.eventBusService.emit(new EventData('roleChange', null));
             this.router.navigate(['/home']);
           },
           error: () => {
