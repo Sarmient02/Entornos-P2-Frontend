@@ -10,7 +10,7 @@ export const adminGuard = () => {
 
     const token = tokenService.getToken();
     const user = storageService.getUser();
-    if (token && user.roles.includes('ROLE_ADMIN')) {
+    if (token && user.roles.includes('admin')) {
         return true;
     }
     

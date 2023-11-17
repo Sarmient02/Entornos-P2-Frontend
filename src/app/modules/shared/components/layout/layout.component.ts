@@ -106,7 +106,7 @@ export class LayoutComponent {
         
         const user = this.storageService.getUser();
         this.roles = user.roles;
-        this.isAdmin = this.roles.includes('ROLE_ADMIN');
+        this.isAdmin = this.roles.includes('admin');
         this.username = user.username;
 
         this.options = [
