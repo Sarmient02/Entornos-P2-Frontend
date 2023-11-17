@@ -31,7 +31,7 @@ export class DashboardComponent {
               ]
           },
           {
-            label: 'Usuaxdrios',
+            label: 'prueba',
             icon: 'material-symbols-rounded manage_accounts',
             routerLink: '/admin/users',
             items: [

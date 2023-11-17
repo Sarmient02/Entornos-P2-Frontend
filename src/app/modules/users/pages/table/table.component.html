@@ -1,1 +1,33 @@
-<p>table works!</p>
+<div class="card">
+    <p-table [value]="users" [responsive]="true" [tableStyle]="{'min-width': '60rem'}">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Products
+                <p-button icon="pi pi-refresh"></p-button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>Código</th>
+                <th>Email</th>
+                <th>Rol</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-users>
+            <tr>
+                <td>{{users.username}}</td>
+                <td>{{users.fullName}}</td>
+                <td>{{users.studentCode}}</td>
+                <td>{{users.email}}</td>
+                <td>{{users.roles}}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{users ? users.length : 0 }} products.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
