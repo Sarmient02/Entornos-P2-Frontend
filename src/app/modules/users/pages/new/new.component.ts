@@ -7,11 +7,13 @@ import { MessagesModule } from 'primeng/messages';
 import { Message, MessageService } from 'primeng/api';
 import { UserService } from 'src/app/services/user.service';
 import { PasswordModule } from 'primeng/password';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-new',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, MessagesModule, PasswordModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, MessagesModule, PasswordModule, InputTextModule, ButtonModule],
   templateUrl: './new.component.html',
   styleUrls: ['./new.component.scss'],
   providers: [MessageService]
