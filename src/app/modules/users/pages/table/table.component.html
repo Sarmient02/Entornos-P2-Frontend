@@ -3,8 +3,7 @@
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 Users
-                <a routerLink="new">
-                    <p-button>
+                    <p-button routerLink="new">
                         <ng-template pTemplate="icon">
                             <span class="material-symbols-rounded">
                                 add
@@ -12,7 +11,6 @@
                         </ng-template>
                     </p-button>
                     <p-button icon="pi pi-refresh" severi></p-button>
-                </a>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -32,14 +30,14 @@
                 <td>{{users.studentCode}}</td>
                 <td>{{users.email}}</td>
                 <td>{{users.roles}}</td>
-                <td><p-button>
+                <td><p-button routerLink="edit" (onClick)="see_update(users)">
                         <ng-template pTemplate="icon">
                             <span class="material-symbols-rounded">
                                 edit
                             </span>
                         </ng-template>
                     </p-button></td>
-                <td><p-button>
+                <td><p-button (onClick)="deleteUser(users)">
                         <ng-template pTemplate="icon">
                             <span class="material-symbols-rounded">
                                 delete

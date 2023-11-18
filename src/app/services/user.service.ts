@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { newUser } from '../models/user.model';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,4 +29,13 @@ export class UserService {
     return this.http.post<any>(url,newUser, this.options);
   }
 
+  updateUser(newUser: newUser){
+    const url = `${this.API_URL}/user`;
+    return this.http.put<any>(url,newUser, this.options);
+  }
+
+  deleteUser(User: User){
+    const url = `${this.API_URL}/user/`;
+    return this.http.delete<any>(url+User.id);
+  }
 }

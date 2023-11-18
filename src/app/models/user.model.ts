@@ -8,7 +8,16 @@ export interface User {
 export interface newUser {
     username: string;
     password: string;
-    fullName: string;
-    studentCode: string;
+    student_code: string;
+    full_name: string;
     email: string;
+}
+
+export interface updateUser {
+    username: string;
+    password: string;
+    student_code: string;
+    full_name: string;
+    email: string;
+    roles: string[];
 }

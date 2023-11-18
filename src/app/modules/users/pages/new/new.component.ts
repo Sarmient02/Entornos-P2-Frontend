@@ -20,7 +20,7 @@ import { ButtonModule } from 'primeng/button';
 })
 export class NewComponent {
 
-  constructor(private messageService: MessageService) {}
+  constructor(private messageService: MessageService) { }
 
   private fb = inject(FormBuilder);
   private router = inject(Router);
@@ -36,9 +36,7 @@ export class NewComponent {
   });
 
   onSubmit(): void {
-    console.log("lol")
     if (this.form.valid) {
-      console.log("lol2")
       const { username, password, full_name, student_code, email } = this.form.getRawValue();
       if (!username || !password || !full_name || !student_code || !email) {
         return;
@@ -48,10 +46,11 @@ export class NewComponent {
       this.user.newUser(this.data)
         .subscribe({
           next: (data) => {
+            this.router.navigate(['/admin/users']);
             this.messageService.add({ severity: 'success', summary: data.message });
             this.form.reset();
             setTimeout(() => {
-              this.router.navigate(['/auth/login']);
+              this.router.navigate(['/admin/users']);
             }, 3000);
           },
           error: (data) => {
