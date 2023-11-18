@@ -12,7 +12,7 @@ import { TokenService } from '../services/token.service';
 })
 export class AuthService {
 
-  private API_URL = 'http://localhost:8080/api';
+  private API_URL = 'http://localhost:8081/api';
 
   private http = inject(HttpClient);
   private tokenService = inject(TokenService);

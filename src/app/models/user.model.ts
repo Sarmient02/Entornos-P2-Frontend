@@ -4,3 +4,11 @@ export interface User {
     username: string;
     roles: string[];
 }
+
+export interface newUser {
+    username: string;
+    password: string;
+    fullName: string;
+    studentCode: string;
+    email: string;
+}

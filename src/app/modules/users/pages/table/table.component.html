@@ -2,8 +2,17 @@
     <p-table [value]="users" [responsive]="true" [tableStyle]="{'min-width': '60rem'}">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
-                Products
-                <p-button icon="pi pi-refresh"></p-button>
+                Users
+                <a routerLink="users/new">
+                    <p-button>
+                        <ng-template pTemplate="icon">
+                            <span class="material-symbols-rounded">
+                                add
+                            </span>
+                        </ng-template>
+                    </p-button>
+                    <p-button icon="pi pi-refresh" severi></p-button>
+                </a>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -13,6 +22,7 @@
                 <th>Código</th>
                 <th>Email</th>
                 <th>Rol</th>
+                <th>Acciones</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-users>
@@ -22,11 +32,25 @@
                 <td>{{users.studentCode}}</td>
                 <td>{{users.email}}</td>
                 <td>{{users.roles}}</td>
+                <td><p-button>
+                        <ng-template pTemplate="icon">
+                            <span class="material-symbols-rounded">
+                                edit
+                            </span>
+                        </ng-template>
+                    </p-button></td>
+                <td><p-button>
+                        <ng-template pTemplate="icon">
+                            <span class="material-symbols-rounded">
+                                delete
+                            </span>
+                        </ng-template>
+                    </p-button></td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-                In total there are {{users ? users.length : 0 }} products.
+                In total there are {{users ? users.length : 0 }} users.
             </div>
         </ng-template>
     </p-table>
