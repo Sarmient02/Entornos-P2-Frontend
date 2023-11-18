@@ -3,20 +3,38 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenuItem } from 'primeng/api';
+import { TabMenuModule } from 'primeng/tabmenu';
+
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, PanelMenuModule],
+  imports: [CommonModule, RouterModule, PanelMenuModule, TabMenuModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
+  items2: MenuItem[] | undefined;
   items: MenuItem[] | undefined;
 
+  activeItem: MenuItem | undefined;
+
   ngOnInit() {
-      this.items = [
+        this.items = [
+            {
+                label: 'Usuarios',
+                icon: 'material-symbols-rounded manage_accounts',
+                routerLink: '/admin/users',
+            },
+            {
+                label: 'prueba',
+                icon: 'material-symbols-rounded manage_accounts',
+                routerLink: '/home',
+            }
+        ];
+
+      this.items2 = [
           {
               label: 'Usuarios',
               icon: 'material-symbols-rounded manage_accounts',
@@ -44,5 +62,7 @@ export class DashboardComponent {
             ]
         }
       ];
+
+      this.activeItem = this.items[0];
   }
 }
