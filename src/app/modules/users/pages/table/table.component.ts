@@ -7,12 +7,17 @@ import { UserService } from 'src/app/services/user.service';
 import { Router, RouterModule } from '@angular/router';
 import { MessagesModule } from 'primeng/messages';
 import { User } from 'src/app/models/user.model';
+import { ConfirmationService, MessageService, ConfirmEventType} from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { CapitalizePipe } from 'src/app/pipes/capitalize.pipe';
 
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, TableModule, TagModule, ButtonModule, RouterModule, MessagesModule],
+  imports: [CommonModule, TableModule, TagModule, ButtonModule, RouterModule, MessagesModule, ConfirmDialogModule, ToastModule, CapitalizePipe],
+  providers: [ConfirmationService, MessageService],
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
@@ -22,7 +27,10 @@ export class TableComponent implements OnInit {
   private userService = inject(UserService);
   private router = inject(Router);
 
-  constructor() { }
+  constructor(
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
+  ) { }
 
   ngOnInit() {
     this.getUsers();
@@ -41,10 +49,17 @@ export class TableComponent implements OnInit {
       });
   }
 
-  deleteUser(user: User) {
-    console.log(user.id)
-    this.userService.deleteUser(user).subscribe((response) => {
-      this.getUsers();
+  deleteUser(user: any) {
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de que quieres eliminar este usuario?',
+      header: 'Eliminar a '+user.fullName,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.userService.deleteUser(user).subscribe((response) => {
+          this.getUsers();
+          this.messageService.add({severity:'error', summary: 'Usuario eliminado', detail: 'El usuario ha sido eliminado correctamente'});
+        });
+      }
     });
   }
 

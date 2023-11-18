@@ -1,0 +1,7 @@
+:host ::ng-deep .close::before{
+    content: "close";
+}
+
+:host ::ng-deep .person_check::before{
+    content: "person_check";
+}

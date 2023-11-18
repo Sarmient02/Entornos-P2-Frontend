@@ -3,3 +3,27 @@
     justify-content: center;
     align-items: center;
 }
+
+:host ::ng-deep .delete_forever::before{
+    padding-right: 8px;
+    content: "delete_forever";
+}
+
+:host ::ng-deep .close::before{
+    padding-right: 8px;
+    content: "close";
+}
+
+.refresh{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+:host ::ng-deep .refresh::before{
+    content: "refresh";
+}
+
+.user {
+    background-color: green;
+}

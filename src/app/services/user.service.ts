@@ -24,6 +24,11 @@ export class UserService {
     return this.http.get<any>(url, this.options)
   }
 
+  getUserById(id: number){
+    const url = `${this.API_URL}/user/`+id;
+    return this.http.get<any>(url, this.options)
+  }
+
   newUser(newUser: newUser){
     const url = `${this.API_URL}/user/new`;
     return this.http.post<any>(url,newUser, this.options);
@@ -31,7 +36,7 @@ export class UserService {
 
   updateUser(newUser: newUser){
     const url = `${this.API_URL}/user`;
-    return this.http.put<any>(url,newUser, this.options);
+    return this.http.put<any>(url, newUser, this.options);
   }
 
   deleteUser(User: User){

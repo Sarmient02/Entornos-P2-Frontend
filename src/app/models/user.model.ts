@@ -14,6 +14,7 @@ export interface newUser {
 }
 
 export interface updateUser {
+    id: number;
     username: string;
     password: string;
     student_code: string;

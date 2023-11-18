@@ -9,13 +9,13 @@ import { PasswordModule } from 'primeng/password';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Message, MessageService } from 'primeng/api';
-import { MessagesModule } from 'primeng/messages';
+import { ToastModule } from 'primeng/toast';
 import { RegisterForm } from 'src/app/models/auth.model';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, CheckboxModule, InputTextModule, ButtonModule, CardModule, ReactiveFormsModule, PasswordModule, RouterModule, MessagesModule],
+  imports: [CommonModule, CheckboxModule, InputTextModule, ButtonModule, CardModule, ReactiveFormsModule, PasswordModule, RouterModule, ToastModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
   providers: [MessageService]
