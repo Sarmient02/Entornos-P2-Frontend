@@ -3,7 +3,7 @@
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 <p-button (click)="getUsers()" icon="material-symbols-rounded refresh"></p-button>
-                <p-button routerLink="new">
+                <p-button routerLink="new" [style]="{'background-color':'var(--green-500)', 'border':'none'}">
                     <ng-template pTemplate="icon">
                         <span class="material-symbols-rounded">
                             add
@@ -14,7 +14,11 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+                <th pSortableColumn="id" class="w-fit">
+                    <div class="flex flex-auto">
+                        <span>ID</span>
+                        <p-sortIcon field="id"></p-sortIcon>
+                    </div></th>
                 <th>Usuario</th>
                 <th>Nombre</th>
                 <th>Código</th>
@@ -33,9 +37,21 @@
                 <td class="w-2">
                     <div class=" flex gap-3">
                         <div *ngFor="let role of users.roles">
-                            <p-tag *ngIf="role.name == 'admin'" [class]="role" [style]="{ 'background-color': 'var(--cyan-600)'}">{{role.name | capitalize}}</p-tag>
-                            <p-tag *ngIf="role.name == 'user'" [class]="role" [style]="{ 'background-color': 'var(--bluegray-600)'}">{{role.name | capitalize}}</p-tag>
-                            <p-tag *ngIf="role.name == 'moderator'" [class]="role" [style]="{ 'background-color': 'var(--red-600)'}">{{role.name | capitalize}}</p-tag>
+                            <p-tag *ngIf="role.name == 'admin'" [class]="role" [style]="{ 'background-color': 'var(--cyan-600)', 'height':'40px', 'width':'auto'}">
+                                <span class="material-symbols-rounded">
+                                    shield_person
+                                </span>
+                            </p-tag>
+                            <p-tag *ngIf="role.name == 'user'" [class]="role" [style]="{ 'background-color': 'var(--bluegray-600)', 'height':'40px', 'width':'auto'}">
+                                <span class="material-symbols-rounded">
+                                    person
+                                </span>
+                            </p-tag>
+                            <p-tag *ngIf="role.name == 'moderator'" [class]="role" [style]="{ 'background-color': 'var(--red-600)', 'height':'40px', 'width':'auto'}">
+                                <span class="material-symbols-rounded">
+                                    supervisor_account
+                                </span>
+                            </p-tag>
                         </div>
                     </div>
                 </td>

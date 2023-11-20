@@ -27,3 +27,15 @@
 .user {
     background-color: green;
 }
+
+:host ::ng-deep .shield_person::before{
+    content: "shield_person";
+}
+
+:host ::ng-deep .supervisor_account::before{
+    content: "supervisor_account";
+}
+
+:host ::ng-deep .person::before{
+    content: "person";
+}
