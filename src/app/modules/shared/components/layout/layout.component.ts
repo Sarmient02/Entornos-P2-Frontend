@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { RippleModule } from 'primeng/ripple';
@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 import { StorageService } from 'src/app/services/storage.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { EventBusService } from 'src/app/services/event-bus.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-layout',
@@ -43,6 +44,8 @@ export class LayoutComponent {
     private eventBusService: EventBusService
     ) { }
 
+  private messageService = inject(MessageService);
+
   menu: MenuItem[] | undefined;
   options: MenuItem[] | undefined;
 
@@ -54,7 +57,7 @@ export class LayoutComponent {
             routerLink: '/home'
         },
         {
-            label: 'Documentos',
+            label: 'Publicaciones',
             icon: 'material-symbols-rounded content_copy'
         }
       ];
@@ -65,6 +68,7 @@ export class LayoutComponent {
 
       this.eventBusSub = this.eventBusService.on('logout', () => {
         this.logout();
+        
       });
 
       this.roleSub = this.eventBusService.on('roleChange', () => {
@@ -117,10 +121,11 @@ export class LayoutComponent {
   logout(): void {
     this.authService.logout().subscribe({
       next: res => {
+        this.messageService.add({ key: 'br', severity: 'success', summary: '¡Hasta luego!', detail: 'Has cerrado sesión correctamente.' });
         console.log(res);
         this.storageService.clean();
-
-        window.location.reload();
+        this.router.navigate(['/home']);
+        this.ngOnInit();
       },
       error: err => {
         console.log(err);

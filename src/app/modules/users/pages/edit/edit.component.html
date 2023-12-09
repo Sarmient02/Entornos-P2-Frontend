@@ -41,12 +41,14 @@
             
             
             <div class="flex align-content-center justify-content-center">
-                <button type="submit" pButton pRipple label="Actualizar" icon="material-symbols-rounded person_check" class="w-fit mt-3"></button>
-                <button pButton pRipple label="Cancelar" class="w-fit mt-3 ml-3" icon="material-symbols-rounded close"  routerLink="/admin/users"></button>
+                <button type="submit" pButton pRipple label="Actualizar" icon="material-symbols-rounded person_check" class="w-fit mt-3" [style]="{'background-color':'var(--blue-500)', 'border':'none'}"></button>
+                <button pButton pRipple label="Cancelar" class="w-fit mt-3 ml-3" icon="material-symbols-rounded close"  routerLink="/admin/users" [style]="{'background-color':'var(--red-500)', 'border':'none'}"></button>
             </div>
             </form>
         </div>
     </div> 
     
 </div>
-<p-toast position="top-right" key="myKey"></p-toast>
+<div class="progress-spinner" *ngIf="loading">
+    <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
+</div>

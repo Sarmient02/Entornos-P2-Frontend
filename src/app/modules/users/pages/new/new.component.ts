@@ -15,17 +15,17 @@ import { ButtonModule } from 'primeng/button';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule, MessagesModule, PasswordModule, InputTextModule, ButtonModule],
   templateUrl: './new.component.html',
-  styleUrls: ['./new.component.scss'],
-  providers: [MessageService]
+  styleUrls: ['./new.component.scss']
 })
 export class NewComponent {
 
-  constructor(private messageService: MessageService) { }
+  constructor() { }
 
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private user = inject(UserService);
   private data: newUser = {} as newUser;
+  private messageService = inject(MessageService);
 
   form = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3)]],

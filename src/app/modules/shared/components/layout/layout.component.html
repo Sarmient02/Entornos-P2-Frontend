@@ -8,10 +8,19 @@
       <span class="material-symbols-rounded">menu</span>
     </ng-template>
     <ng-template pTemplate="end">
+      <div class="flex align-content-center justify-content-around gap-3">
+        <p-button routerLink="new" [style]="{'border':'none', 'height':'auto', 'background-color':'var(--indigo-500)'}">
+          <ng-template pTemplate="icon">
+              <span class="material-symbols-rounded">
+                upload
+              </span>
+          </ng-template>
+      </p-button>
         <div (click)="avatarMenu.toggle($event)" class="cursor-pointer">
           <p-avatar icon="pi pi-user" shape="square" size="large"></p-avatar>
         </div>
-        <p-tieredMenu #avatarMenu [model]="options" [popup]="true"></p-tieredMenu>
+      </div>
+      <p-tieredMenu #avatarMenu [model]="options" [popup]="true"></p-tieredMenu>
     </ng-template>
   </p-menubar>
 </div>

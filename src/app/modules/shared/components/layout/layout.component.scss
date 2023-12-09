@@ -37,3 +37,9 @@
 :host ::ng-deep .admin_panel_settings::before{
     content: "admin_panel_settings";
 }
+
+:host ::ng-deep .p-button-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

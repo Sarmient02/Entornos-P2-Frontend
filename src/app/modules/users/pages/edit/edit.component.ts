@@ -11,19 +11,20 @@ import { ButtonModule } from 'primeng/button';
 import { updateUser } from 'src/app/models/user.model';
 import { ToastModule } from 'primeng/toast';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, MessagesModule, PasswordModule, InputTextModule, ButtonModule, ToastModule, MultiSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, MessagesModule, PasswordModule, InputTextModule, ButtonModule, ToastModule, MultiSelectModule, ProgressSpinnerModule],
   templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss'],
-  providers: [MessageService]
+  styleUrls: ['./edit.component.scss']
 })
 export class EditComponent {
 
+  loading: boolean = true;
+
   constructor(
-    private messageService: MessageService,
     private route: ActivatedRoute
     ) { }
 
@@ -41,6 +42,7 @@ export class EditComponent {
   private router = inject(Router);
   private userService = inject(UserService);
   private user: any;
+  private messageService = inject(MessageService);
 
   form = this.fb.group({
     id: [''],
@@ -61,6 +63,7 @@ export class EditComponent {
           this.user = data;
           this.setUser(data);
           this.selectedRoles = data.roles;
+          this.loading = false;
         },
         error: () => {
         }
@@ -92,7 +95,7 @@ export class EditComponent {
       this.userService.updateUser(this.user)
       .subscribe({
         next: () => {
-          this.messageService.add({ key:'myKey', severity: 'success', summary: 'Correcto', detail: 'Usuario editado correctamente' });
+          this.messageService.add({ key:'br', severity: 'info', summary: 'Correcto', detail: 'Usuario editado correctamente' });
           setTimeout(() => {
             this.form.reset();
             this.router.navigate(['/admin/users']);

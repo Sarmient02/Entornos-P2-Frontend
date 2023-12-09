@@ -11,30 +11,48 @@ import { ConfirmationService, MessageService, ConfirmEventType} from 'primeng/ap
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { CapitalizePipe } from 'src/app/pipes/capitalize.pipe';
+import { SkeletonModule } from 'primeng/skeleton';
 
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, TableModule, TagModule, ButtonModule, RouterModule, MessagesModule, ConfirmDialogModule, ToastModule, CapitalizePipe],
-  providers: [ConfirmationService, MessageService],
+  imports: [CommonModule, TableModule, TagModule, ButtonModule, RouterModule, MessagesModule, ConfirmDialogModule, ToastModule, CapitalizePipe, SkeletonModule],
+  providers: [ConfirmationService],
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
+
+  loading: boolean = true;
+
   users!: any[];
 
   private userService = inject(UserService);
   private router = inject(Router);
+  private messageService = inject(MessageService);
 
   constructor(
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit() {
     this.getUsers();
+  }
 
+  //Wait for get user to success ad show the message
+  refresh() {
+    this.userService.getAllUsers()
+      .subscribe({
+        next: (data) => {
+          console.log(data)
+          this.users = data;
+          this.messageService.add({severity:'info', summary: 'Usuarios cargados', detail: 'Los usuarios se han refrescado correctamente'});
+        },
+        error: () => {
+        }
+      });
+    
   }
 
   getUsers() {
@@ -43,6 +61,7 @@ export class TableComponent implements OnInit {
         next: (data) => {
           console.log(data)
           this.users = data;
+          this.loading = false;
         },
         error: () => {
         }
