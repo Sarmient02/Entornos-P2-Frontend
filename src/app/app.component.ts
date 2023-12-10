@@ -5,6 +5,7 @@ import { LayoutComponent } from './modules/shared/components/layout/layout.compo
 import { HttpClientModule } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { PrimeNGConfig } from 'primeng/api';
 
 
 @Component({
@@ -27,6 +28,11 @@ import { MessageService } from 'primeng/api';
 })
 export class AppComponent {
     constructor(
-        private messageService: MessageService
+        private messageService: MessageService,
+        private primengConfig: PrimeNGConfig
     ) { }
+
+    ngOnInit() {
+        this.primengConfig.ripple = true;
+    }
 }

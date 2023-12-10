@@ -58,13 +58,10 @@ export class LayoutComponent {
         },
         {
             label: 'Publicaciones',
-            icon: 'material-symbols-rounded content_copy'
+            icon: 'material-symbols-rounded content_copy',
+            routerLink: '/posts'
         }
       ];
-
-      if (this.storageService.isLoggedIn()) {
-        
-      }
 
       this.eventBusSub = this.eventBusService.on('logout', () => {
         this.logout();

@@ -1,0 +1,7 @@
+<ngx-extended-pdf-viewer *ngIf="pdf"
+  [src]="src"
+  [height]="'88vh'">
+</ngx-extended-pdf-viewer>
+<div class="flex justify-content-center" *ngIf="!pdf">
+    <p-image [src]="url" alt="Image" width="auto" ></p-image>
+</div>

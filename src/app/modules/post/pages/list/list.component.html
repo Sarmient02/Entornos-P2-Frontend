@@ -1,0 +1,55 @@
+<div class="card shadow-1">
+    <p-dataView #dv [value]="posts" layout="list" *ngIf="!loading">
+        <ng-template pTemplate="header">
+            <div class="flex justify-content-center">
+                <div class="p-inputgroup">
+                    <button type="button" pButton icon="pi pi-times"></button>
+                    <input type="text" pInputText placeholder="Buscar Documentos" />
+                    <button type="button" pButton icon="pi pi-search"></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="listItem" let-post>
+            <div class="col-12">
+                <div class="flex flex-column xl:flex-row xl:align-items-start xl:p-3 md:p-2 py-3 gap-4">
+                    <div class="flex flex-column sm:flex-row justify-content-between align-items-center flex-1 gap-4">
+                        <div class="flex flex-column align-items-center sm:align-items-start gap-3 py-0 sm:py-3">
+                            <div class="text-2xl font-bold text-900">{{ post.title }}</div>
+                            <span class="font-semibold">{{ post.description }}</span>
+                            <p-rating [(ngModel)]="post.rating" [readonly]="true" [cancel]="false"></p-rating>
+                            <div class="flex align-items-center">
+                                <p-avatar icon="pi pi-user" styleClass="mr-2" [style]="{'background-color': '#9c27b0', 'color': '#ffffff'}" shape="circle"></p-avatar>
+                                <span class="font-semibold text-sm">{{ post.user.fullName }}</span>
+                            </div>
+                            <div class="flex align-items-center gap-3">
+                                <span class="flex align-items-center gap-2 text-sm">
+                                    <i class="pi pi-tag text-sm"></i>
+                                    <span class="font-semibold">{{ post.subject.name }}</span>
+                                </span>
+                                <p-tag value="{{post.createdAt | date}}"></p-tag>
+                            </div>
+                        </div>
+                        <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                            <button [routerLink]="['view', post.id]" pButton icon="pi pi-eye" class="md:align-self-end mb-2 p-button-rounded"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-dataView>
+    <div class="p-5" *ngIf="loading">
+        <div class="mb-3">
+            <p-skeleton height="3.5rem" styleClass="mb-2"></p-skeleton>
+        </div>
+        <div *ngFor="let item of [0,1,2,3,4]">
+            <div item class="mb-5">
+                <p-skeleton height="2rem" styleClass="mb-2"></p-skeleton>
+                <p-skeleton styleClass="mb-2"></p-skeleton>
+                <p-skeleton styleClass="mb-2"></p-skeleton>
+                <p-skeleton width="10rem" height="3rem"></p-skeleton>
+            </div>
+        </div>
+        
+    </div>
+</div>
+    

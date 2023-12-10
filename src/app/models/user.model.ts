@@ -22,3 +22,9 @@ export interface updateUser {
     email: string;
     roles: string[];
 }
+
+export interface UserPost {
+    id: number;
+    username: string;
+    fullName: string;
+}
