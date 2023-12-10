@@ -79,10 +79,6 @@ export class EditComponent {
   beforeSave(event: FileSelectEvent) {
     console.log(event.currentFiles)
     this.files = event.currentFiles;
-    const formData = new FormData();
-    formData.append('file', this.files[0]);
-    
-    this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
   }
 
   getPost(id: string) {
@@ -141,7 +137,7 @@ export class EditComponent {
           setTimeout(() => {
             this.form.reset();
             this.router.navigate(['/posts/view/', this.post.id]);
-          }, 1000);
+          }, 2000);
         },
         error: () => {
           this.messageService.add({severity:'error'});
@@ -158,8 +154,9 @@ export class EditComponent {
         const formData = new FormData();
         formData.append('file', file);
         this.fileService.uploadFile(formData, this.post.id).subscribe({
-          next: (data) => {
+          next: (data: any) => {
             console.log(data)
+            this.messageService.add({ severity: 'success', summary: 'Archivo subido', detail: data.message });
           },
           error: (e) => {
             console.log(e.error)
