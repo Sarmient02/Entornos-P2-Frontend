@@ -104,6 +104,11 @@ export class ViewComponent {
       }
     });
   }
+
+  ifUserIsAuthor() {
+    if (!sessionStorage.getItem('user')) return false;
+    return this.post.user.id === JSON.parse(sessionStorage.getItem('user')!).id;
+  }
   
 
 }

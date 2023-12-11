@@ -4,6 +4,7 @@ import { NewComponent } from './pages/new/new.component';
 import { EditComponent } from './pages/edit/edit.component';
 import { ViewComponent } from './pages/view/view.component';
 import { PreviewComponent } from './components/preview/preview.component';
+import { authorGuard } from 'src/app/guards/author.guard';
 
 export const routes: Routes = [
     {
@@ -24,6 +25,7 @@ export const routes: Routes = [
     {
         path: 'edit/:id',
         component: EditComponent,
+        canActivate: [authorGuard],
     },
     {
         path: 'view/:id',
