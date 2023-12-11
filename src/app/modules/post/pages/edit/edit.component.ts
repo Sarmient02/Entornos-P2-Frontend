@@ -12,7 +12,7 @@ import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PostService } from 'src/app/services/post.service';
 import { FileService } from 'src/app/services/file.service';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators, FormArray} from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators, FormArray, FormsModule} from '@angular/forms';
 import { MessagesModule } from 'primeng/messages';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -21,22 +21,32 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FileP } from 'src/app/models/file.model';
+import { DropdownModule } from 'primeng/dropdown';
+import { CareerService } from 'src/app/services/career.service';
+import { Career } from 'src/app/models/career.model';
+import { Subject } from 'src/app/models/subject.model';
+import { SubjectService } from 'src/app/services/subject.service';
 
 
 @Component({
   selector: 'app-edit',
   standalone: true,
   imports: [CommonModule, RouterModule, TagModule, AvatarModule, FileUploadModule, MimetypePipe, SplitButtonModule, SkeletonModule,
-    ReactiveFormsModule, RouterModule, InputTextModule, ButtonModule, ToastModule, MultiSelectModule, ProgressSpinnerModule, InputTextareaModule],
+    ReactiveFormsModule, RouterModule, InputTextModule, ButtonModule, ToastModule, MultiSelectModule, ProgressSpinnerModule, InputTextareaModule, DropdownModule, FormsModule],
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent {
 
+  careers!: Career[];
+
+  subjects!: Subject[];
 
   post!: Post;
 
   newPost!: updatePost;
+
+  selectedCareer!: Career;
 
   idPost = this.route.snapshot.params['id'];
 
@@ -52,7 +62,9 @@ export class EditComponent {
     private route: ActivatedRoute,
     private postService: PostService,
     private fileService: FileService,
-    private router: Router
+    private router: Router,
+    private careerService: CareerService,
+    private subjectService: SubjectService
   ) {
   }
 
@@ -62,7 +74,8 @@ export class EditComponent {
     id: [''],
     title: ['', [Validators.required, Validators.minLength(3)]],
     description: ['', [Validators.minLength(3)]],
-    subjectId: ['', [Validators.required]]
+    subjectId: [new FormControl(), [Validators.required]],
+    selectedCareer: new FormControl()
   });
 
   ngOnInit() {
@@ -87,7 +100,8 @@ export class EditComponent {
         next: (data) => {
           this.post = data;
           console.log(data)
-          this.loading = false;
+          
+          this.careers = this.getCareers();
           this.setPost(data);
           this.oldFiles = data.files;
           this.newPost = {...data};
@@ -100,6 +114,21 @@ export class EditComponent {
       });
   }
 
+  getCareers() {
+    this.careerService.getCareers()
+      .subscribe({
+        next: (data) => {
+          this.careers = data;
+          this.selectedCareer = this.careers.find(career => career.id === this.post.subject.careerId)!;
+        },
+        error: (e) => {
+          console.log(e)
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: e.error.message });
+        }
+      });
+    return this.careers;
+  }
+
   downloadFile(hashName: string) {
     const fileUrl = this.fileService.downloadFile(hashName);
     window.open(fileUrl, '_blank');
@@ -107,13 +136,37 @@ export class EditComponent {
 
   setPost(post: updatePost) {
 
+    this.getSubjectsByCareerId(this.post.subject.careerId);
+
     this.form.setValue({
       id: this.post.id.toString(),
       title: post.title,
       description: post.description,
-      subjectId: '1'
+      subjectId: this.post.subject.id,
+      selectedCareer: this.post.subject.careerId
     });
 
+    
+
+  }
+
+  getSubjectsByCareerId(careerId: number) {
+    this.subjectService.getSubjectsByCareerId(careerId)
+      .subscribe({
+        next: (data) => {
+          this.subjects = data;
+          this.loading = false;
+        },
+        error: (e) => {
+          console.log(e)
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: e.error.message });
+        }
+      });
+  }
+
+  onCareerChange(event: any) {
+    const selectedCareerId = event.value; // Obtener el id de la carrera seleccionada
+    this.getSubjectsByCareerId(selectedCareerId); // Cargar los subjects correspondientes a la carrera seleccionada
   }
 
   onSubmit(): void {
