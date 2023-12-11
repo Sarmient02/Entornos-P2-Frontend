@@ -1,1 +1,50 @@
-<p>new works!</p>
+<div class="flex justify-content-center align-items-center">
+    <div class="col-12 lg:col-10 xl:col-8">
+        <div class="card mb-0 shadow-1 p-3 xl:p-6 md:p-5 sm:p-4">
+            <h1 class="m-0 mb-4 mt-2 sm:mt-0">Crear publicación</h1>
+            <form [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
+                <div class="formgrid grid">
+                    <div class="field col">
+                        <label for="title" class="block text-900 font-medium mb-2">Título</label>
+                        <input formControlName="title" id="title" type="text" pInputText class="w-full">
+                    </div>
+                </div>
+                <div class="formgrid grid">
+                    <div class="field col">
+                        <label for="description" class="block text-900 font-medium mb-2">Descripción</label>
+                        <textarea pInputTextarea formControlName="description" rows="7" id="description" type="text" pInputText class="w-full"></textarea>
+                    </div>
+                </div>
+
+                <div class="formgrid grid">
+                    <div class="field col">
+                        <label for="career" class="block text-900 font-medium mb-2">Carrera</label>
+                        <p-dropdown [options]="careers" optionLabel="name" optionValue="id" inputId="career" formControlName="selectedCareer" [style]="{'width':'100%'}" placeholder="Seleccione una carrera" class="w-full mb-3" (onChange)="onCareerChange($event)"></p-dropdown>
+                    </div>
+                </div>
+
+                <div class="formgrid grid">
+                    <div class="field col">
+                        <label for="subject" class="block text-900 font-medium mb-2">Carrera</label>
+                        <p-dropdown [options]="subjects" optionLabel="name" optionValue="id" inputId="subject" formControlName="subjectId" [style]="{'width':'100%'}" placeholder="Seleccione una carrera" class="w-full mb-3"></p-dropdown>
+                    </div>
+                </div>
+                <p-fileUpload [showUploadButton]="false" [multiple]="true" [maxFileSize]="10490000" (onSelect)="beforeSave($event)">
+                    <ng-template pTemplate="content" let-files>
+                        <div class="h-full flex flex-column justify-content-center align-items-center ng-star-inserted copy">
+                            <i class="pi pi-upload text-900 text-2xl mb-3"></i>
+                            <span class="font-bold text-900 text-xl mb-3">Carga archivos</span>
+                            <span class="font-medium text-600 text-md text-center">Suelta o selecciona archivos</span>
+                        </div>
+                    </ng-template>
+                </p-fileUpload>
+                <div class="flex align-content-center justify-content-center mt-4">
+                    <button type="submit" pButton pRipple label="Actualizar" icon="material-symbols-rounded person_check" class="w-fit mt-3" [style]="{'background-color':'var(--blue-500)', 'border':'none'}"></button>
+                    <button type="button" pButton pRipple label="Cancelar" class="w-fit mt-3 ml-3" icon="material-symbols-rounded close"  [routerLink]="['/posts/']" [style]="{'background-color':'var(--red-500)', 'border':'none'}"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

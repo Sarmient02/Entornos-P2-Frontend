@@ -27,13 +27,21 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-column sm:flex-row w-full gap-3">
-                <button [routerLink]="['/posts/edit', post.id]" pbutton icon="pi pi-pencil" label="Edit Post" class="p-element p-ripple sm:ml-auto p-button p-component" tabindex="0">
-                    <span class="p-button-icon p-button-icon-left pi pi-pencil" aria-hidden="true">
-                    </span>
-                    <span class="p-button-label">Edit Post</span>
-                    <span class="p-ink"></span>
-                </button>
+            <div class="flex gap-5 justify-content-end">
+                <p-button [routerLink]="['/posts/edit', post.id]" label="Editar">
+                    <ng-template pTemplate="icon">
+                        <span class="material-symbols-rounded">
+                            edit
+                        </span>
+                    </ng-template>
+                </p-button>
+                <p-button (onClick)="deletePost()" label="Eliminar" [style]="{ 'background-color': 'var(--red-500)', 'border':'none'}">
+                    <ng-template pTemplate="icon">
+                        <span class="material-symbols-rounded">
+                            delete
+                        </span>
+                    </ng-template>
+                </p-button>
             </div>
         </div>
         <div class="card mb-0 shadow-1 p-3 xl:p-6 md:p-5 sm:p-4" *ngIf="loading">

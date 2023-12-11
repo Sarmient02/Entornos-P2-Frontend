@@ -89,8 +89,21 @@ export class ViewComponent {
 
     this.ref.onMaximize.subscribe((value) => {
     });
-}
+  }
 
+  deletePost() {
+    this.postService.deletePost(this.post.id.toString())
+    .subscribe({
+      next: () => {
+        this.messageService.add({severity:'info', summary: 'Post eliminado', detail: 'El post ha sido eliminado correctamente'});
+        this.router.navigate(['/posts']);
+      },
+      error: (e) => {
+        console.log(e)
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: e.error.message });
+      }
+    });
+  }
   
 
 }

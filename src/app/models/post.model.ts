@@ -15,8 +15,7 @@ export interface Post {
 export interface newPost {
     title: string;
     description: string;
-    files: File[];
-    subject: Subject;
+    subjectId: number;
 }
 
 export interface updatePost {

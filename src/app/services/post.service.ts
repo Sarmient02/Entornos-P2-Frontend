@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Post, updatePost } from '../models/post.model';
+import { Post, newPost, updatePost } from '../models/post.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,4 +34,17 @@ export class PostService {
     console.log(url)
     return this.http.put<any>(url, post, this.options)
   }
+
+  createPost(post: newPost){
+    const url = `${this.API_URL}/post/new`;
+    console.log(url)
+    return this.http.post<any>(url, post, this.options)
+  }
+
+  deletePost(id: string){
+    const url = `${this.API_URL}/post/${id}`;
+    console.log(url)
+    return this.http.delete<any>(url, this.options)
+  }
+
 }
