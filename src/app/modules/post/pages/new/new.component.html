@@ -25,7 +25,7 @@
 
                 <div class="formgrid grid">
                     <div class="field col">
-                        <label for="subject" class="block text-900 font-medium mb-2">Carrera</label>
+                        <label for="subject" class="block text-900 font-medium mb-2">Materia</label>
                         <p-dropdown [options]="subjects" optionLabel="name" optionValue="id" inputId="subject" formControlName="subjectId" [style]="{'width':'100%'}" placeholder="Seleccione una carrera" class="w-full mb-3"></p-dropdown>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     </ng-template>
                 </p-fileUpload>
                 <div class="flex align-content-center justify-content-center mt-4">
-                    <button type="submit" pButton pRipple label="Actualizar" icon="material-symbols-rounded person_check" class="w-fit mt-3" [style]="{'background-color':'var(--blue-500)', 'border':'none'}"></button>
+                    <button type="submit" pButton pRipple label="Crear" icon="material-symbols-rounded person_check" class="w-fit mt-3" [style]="{'background-color':'var(--blue-500)', 'border':'none'}"></button>
                     <button type="button" pButton pRipple label="Cancelar" class="w-fit mt-3 ml-3" icon="material-symbols-rounded close"  [routerLink]="['/posts/']" [style]="{'background-color':'var(--red-500)', 'border':'none'}"></button>
                 </div>
             </form>
