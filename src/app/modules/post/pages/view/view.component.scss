@@ -32,5 +32,6 @@
     align-items: center;
 }
 
-
-  
+:host ::ng-deep .add_comment::before{
+    content: "add_comment";
+}

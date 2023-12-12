@@ -4,14 +4,30 @@
             <div class="flex justify-content-between flex-column-reverse md:flex-row align-items-center">
                 <div class="mt-4 mb-4 sm:m-0">
                     <div class="text-900 font-bold text-3xl mb-2">{{post.title}}</div>
-                    <p-tag value="{{post.createdAt | date}}"></p-tag>
+                    <div class="flex align-items-center gap-3 flex-column-reverse md:flex-row mt-3 md:mt-0">
+                        <p-tag value="{{post.createdAt | date}}"></p-tag>
+                        <span class="flex align-items-center gap-2 text-sm">
+                            <i class="pi pi-tag text-sm"></i>
+                            <span class="font-semibold">{{ post.subject.name }}</span>
+                        </span>
+                    </div>
                 </div>
-                <div class="flex align-items-center mt-2 sm:mt-0">
+                <p-button class="flex align-items-center mt-2 md:mt-0" *ngIf="!ifUserIsAuthor()" [style]="getFollowStyle()" (onClick)="followOrUnfollow()">
+                    <p-avatar icon="pi pi-user" styleClass="mr-2" [style]="{'background-color': '#9c27b0', 'color': '#ffffff'}" shape="circle"></p-avatar>
+                    <span class="font-semibold">{{post.user.fullName}}</span>
+                    <span class="material-symbols-rounded ml-2" *ngIf="!following">
+                        person_add
+                    </span>
+                    <span class="material-symbols-rounded ml-2" *ngIf="following">
+                        person_remove
+                    </span>
+                </p-button>
+                <div class="flex align-items-center mt-2 md:mt-0" *ngIf="ifUserIsAuthor()">
                     <p-avatar icon="pi pi-user" styleClass="mr-2" [style]="{'background-color': '#9c27b0', 'color': '#ffffff'}" shape="circle"></p-avatar>
                     <span class="font-semibold">{{post.user.fullName}}</span>
                 </div>
             </div>
-            <p class="line-height-3 text-lg mb-4 mt-6" *ngIf="post.description">{{post.description}}</p>
+            <p class="line-height-3 text-lg mb-2 mt-2 md:mb-4 md:mt-6" *ngIf="post.description">{{post.description}}</p>
             <div class="grid my-5">
                 <div class="col-12 md:col-6 xl:col-4" *ngFor="let file of post.files">
                     <div class="file flex justify-content-center align-items-center p-4 gap-3">
@@ -43,6 +59,50 @@
                     </ng-template>
                 </p-button>
             </div>
+            <p-divider></p-divider>
+            <!-- Comments Section -->
+            <div class="p-4 pt-1">
+                <h2>Comentarios</h2>
+                <!-- Comment Card -->
+                <div *ngIf="this.comments"  class="my-2">
+                    <p-card  *ngFor="let comentario of this.comments" class="m-8">
+                        <ng-template pTemplate="header">
+                            <div class="pt-4 md:pt-5 md:pl-5 flex align-items-center align-content-center gap-3 flex-column-reverse md:flex-row">
+                                <p-avatar icon="pi pi-user" styleClass="mr-2" [style]="{'background-color': '#9c27b0', 'color': '#ffffff'}" shape="circle"></p-avatar>
+                                <span class="font-semibold">{{comentario.user.fullName}}</span>
+                                <p-rating class="md:ml-2" [(ngModel)]="comentario.score" [readonly]="true" [cancel]="false"></p-rating>
+                                <p-tag value="{{comentario.createdAt | date}}"></p-tag>
+                                
+                            </div>
+                        </ng-template>
+                        <p class="md:pl-5">{{comentario.body}}</p>
+                        <div class="flex justify-content-end align-content-end">
+                            <p-button *ngIf="ifUserIsCommentAuthor(comentario.user.id)" (onClick)="deleteComment(comentario.id.toString())" label="Eliminar" [style]="{ 'background-color': 'var(--red-500)', 'border':'none'}">
+                                <ng-template pTemplate="icon">
+                                    <span class="material-symbols-rounded">
+                                        delete
+                                    </span>
+                                </ng-template>
+                            </p-button>
+                        </div>
+                        
+                    </p-card>
+                </div>
+                
+                <form [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
+                    <div class="formgrid grid pt-4">
+                        <div class="field col">
+                            <label for="comment" class="block text-900 font-medium mb-2">Añadir un comentario</label>
+                            <textarea pInputTextarea formControlName="body" rows="4" id="comment" type="text" pInputText class="w-full"></textarea>
+                            <p-rating formControlName="score" (onRate)="setRate($event)"></p-rating>
+                        </div>
+                    </div>
+                    <div class="flex align-content-center justify-content-start mt-1">
+                        <button type="submit" pButton pRipple label="Enviar comentario" icon="material-symbols-rounded add_comment" class="w-fit mt-3" [style]="{'background-color':'var(--blue-500)', 'border':'none'}"></button>
+                    </div>
+                </form>
+            </div>
+  
         </div>
         <div class="card mb-0 shadow-1 p-3 xl:p-6 md:p-5 sm:p-4" *ngIf="loading">
             <div class="mb-3">
