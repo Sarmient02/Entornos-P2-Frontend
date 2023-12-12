@@ -32,5 +32,13 @@ export const routes: Routes = [
     {
         path: 'posts',
         loadChildren: () => import('./modules/post/post.routes').then(m => m.routes),
+    },
+    {
+        path: 'subjects',
+        loadChildren: () => import('./modules/subjects/subjects.routes').then(m => m.routes),
+    },
+    {
+        path: 'careers',
+        loadChildren: () => import('./modules/careers/careers.routes').then(m => m.routes),
     }
 ];

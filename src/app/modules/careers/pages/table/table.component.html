@@ -1,0 +1,77 @@
+<div class="card">
+    <p-table [value]="careers" [responsive]="true" [loading]="loading" [showLoader]="false"
+        [tableStyle]="{'min-width': '60rem'}">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <p-button (click)="refresh()" icon="material-symbols-rounded refresh"
+                    [style]="{'background-color':'var(--cyan-500)', 'border':'none'}"></p-button>
+                <p-button routerLink="new" [style]="{'background-color':'var(--green-500)', 'border':'none'}">
+                    <ng-template pTemplate="icon">
+                        <span class="material-symbols-rounded">
+                            add
+                        </span>
+                    </ng-template>
+                </p-button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id" class="w-fit">
+                    <div class="flex flex-auto">
+                        <span>ID</span>
+                        <p-sortIcon field="id"></p-sortIcon>
+                    </div>
+                </th>
+                <th>Nombre</th>
+                <th>CodigoCarrera</th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <tr *ngFor="let number of [0,1,2,3,4,5,6,7,8]">
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-careers>
+            <tr>
+                <td>{{careers.id}}</td>
+                <td>{{careers.name}}</td>
+                <td>{{careers.careerCode}}</td>
+                <td class="w-1">
+                    <div class="flex gap-7">
+                        <p-button [routerLink]="['edit', careers.id]">
+                            <ng-template pTemplate="icon">
+                                <span class="material-symbols-rounded">
+                                    edit
+                                </span>
+                            </ng-template>
+                        </p-button>
+                        <p-button (click)="deleteCareer(careers)"
+                            [style]="{ 'background-color': 'var(--red-500)', 'border':'none'}">
+                            <ng-template pTemplate="icon">
+                                <span class="material-symbols-rounded">
+                                    delete
+                                </span>
+                            </ng-template>
+                        </p-button>
+                    </div>
+
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                En total hay {{careers ? careers.length : 0 }} carreras.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<p-confirmDialog [style]="{width: 'auto', height: 'auto'}" acceptLabel="Eliminar"
+    acceptIcon="material-symbols-rounded delete_forever" rejectLabel="Cancelar" acceptButtonStyleClass="p-button-danger"
+    rejectIcon="material-symbols-rounded close" defaultFocus="reject"></p-confirmDialog>

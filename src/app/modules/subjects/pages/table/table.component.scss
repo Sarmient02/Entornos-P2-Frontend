@@ -1,0 +1,41 @@
+:host ::ng-deep .p-button-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+:host ::ng-deep .delete_forever::before{
+    padding-right: 8px;
+    content: "delete_forever";
+}
+
+:host ::ng-deep .close::before{
+    padding-right: 8px;
+    content: "close";
+}
+
+.refresh{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+:host ::ng-deep .refresh::before{
+    content: "refresh";
+}
+
+.user {
+    background-color: green;
+}
+
+:host ::ng-deep .shield_person::before{
+    content: "shield_person";
+}
+
+:host ::ng-deep .supervisor_account::before{
+    content: "supervisor_account";
+}
+
+:host ::ng-deep .person::before{
+    content: "person";
+}
