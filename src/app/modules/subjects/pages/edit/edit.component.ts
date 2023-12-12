@@ -92,7 +92,7 @@ export class EditComponent implements OnInit {
       this.subjectService.updateSubject(this.subject)
         .subscribe({
           next: () => {
-            this.messageService.add({ key: 'br', severity: 'info', summary: 'Correcto', detail: 'Usuario editado correctamente' });
+            this.messageService.add({ key: 'br', severity: 'info', summary: 'Correcto', detail: 'Materia editada correctamente' });
             setTimeout(() => {
               this.form.reset();
               this.router.navigate(['/admin/subjects']);
