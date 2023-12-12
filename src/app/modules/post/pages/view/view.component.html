@@ -31,7 +31,8 @@
             <div class="grid my-5">
                 <div class="col-12 md:col-6 xl:col-4" *ngFor="let file of post.files">
                     <div class="file flex justify-content-center align-items-center p-4 gap-3">
-                        <i (click)="show(file)" [class]="file.type | mimetype" class="icons"></i>
+                        <i (click)="show(file)" [class]="file.type | mimetype" *ngIf="file.type.includes('image') || file.type.includes('pdf')" class="icons"></i>
+                        <i [class]="file.type | mimetype" *ngIf="!file.type.includes('image') && !file.type.includes('pdf')"  class="icons"></i>
                         <span class="file-name">{{file.name}}</span>
                         <p-button (onClick)="downloadFile(file.hashName)" [style]="{'border':'none', 'height':'auto', 'background-color':'var(--indigo-500)'}">
                             <ng-template pTemplate="icon">
