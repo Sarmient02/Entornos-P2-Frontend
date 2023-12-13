@@ -1,0 +1,46 @@
+.copy{
+    cursor: copy;
+}
+
+.card {
+    background: var(--white-500);
+    border: 1px solid var(--surface-border);
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    margin: 50px 0px;
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.file {
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;  
+}
+
+.icons{
+    font-size: 45px;
+    color: var(--red-600);
+}
+
+.file-name {
+    max-width: 150px; /* Ajusta esto según el espacio disponible */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+:host ::ng-deep .p-button-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+:host ::ng-deep .close::before{
+    content: "close";
+}
+
+:host ::ng-deep .person_check::before{
+    content: "person_check";
+}

@@ -1,0 +1,26 @@
+<!-- Header -->
+<div>
+  <p-menubar [model]="menu" class="z-5 relative top-0">
+    <ng-template pTemplate="start" >
+        <img src="../../../../../assets/logo.png" height="40" class="mr-5"/>
+    </ng-template>
+    <ng-template pTemplate="menuicon">
+      <span class="material-symbols-rounded">menu</span>
+    </ng-template>
+    <ng-template pTemplate="end">
+      <div class="flex align-content-center justify-content-around gap-3">
+        <p-button routerLink="/posts/new" [style]="{'border':'none', 'height':'auto', 'background-color':'var(--indigo-500)'}" *ngIf="this.storageService.isLoggedIn()">
+          <ng-template pTemplate="icon">
+              <span class="material-symbols-rounded">
+                upload
+              </span>
+          </ng-template>
+      </p-button>
+        <div pRipple (click)="avatarMenu.toggle($event)" class="cursor-pointer">
+          <p-avatar icon="pi pi-user" shape="square" size="large"></p-avatar>
+        </div>
+      </div>
+      <p-tieredMenu #avatarMenu [model]="options" [popup]="true"></p-tieredMenu>
+    </ng-template>
+  </p-menubar>
+</div>

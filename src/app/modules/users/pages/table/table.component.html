@@ -1,0 +1,98 @@
+<div class="card">
+    <p-table [value]="users" [responsive]="true" [loading]="loading" [showLoader]="false" [tableStyle]="{'min-width': '60rem'}">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <p-button (click)="refresh()" icon="material-symbols-rounded refresh" [style]="{'background-color':'var(--cyan-500)', 'border':'none'}"></p-button>
+                <p-button routerLink="new" [style]="{'background-color':'var(--green-500)', 'border':'none'}">
+                    <ng-template pTemplate="icon">
+                        <span class="material-symbols-rounded">
+                            add
+                        </span>
+                    </ng-template>
+                </p-button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id" class="w-fit">
+                    <div class="flex flex-auto">
+                        <span>ID</span>
+                        <p-sortIcon field="id"></p-sortIcon>
+                    </div></th>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>Código</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <tr *ngFor="let number of [0,1,2,3,4,5,6,7,8]">
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+                <td><p-skeleton></p-skeleton></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-users>
+            <tr>
+                <td>{{users.id}}</td>
+                <td>{{users.username}}</td>
+                <td>{{users.fullName}}</td>
+                <td>{{users.studentCode}}</td>
+                <td>{{users.email}}</td>
+                <td class="w-2">
+                    <div class=" flex gap-3">
+                        <div *ngFor="let role of users.roles">
+                            <p-tag *ngIf="role.name == 'admin'" [class]="role" [style]="{ 'background-color': 'var(--cyan-600)', 'height':'40px', 'width':'auto'}">
+                                <span class="material-symbols-rounded">
+                                    shield_person
+                                </span>
+                            </p-tag>
+                            <p-tag *ngIf="role.name == 'user'" [class]="role" [style]="{ 'background-color': 'var(--bluegray-600)', 'height':'40px', 'width':'auto'}">
+                                <span class="material-symbols-rounded">
+                                    person
+                                </span>
+                            </p-tag>
+                            <p-tag *ngIf="role.name == 'moderator'" [class]="role" [style]="{ 'background-color': 'var(--red-600)', 'height':'40px', 'width':'auto'}">
+                                <span class="material-symbols-rounded">
+                                    supervisor_account
+                                </span>
+                            </p-tag>
+                        </div>
+                    </div>
+                </td>
+                <td class="w-1">
+                    <div class="flex gap-7">
+                        
+                        <p-button [routerLink]="['edit', users.id]">
+                            <ng-template pTemplate="icon">
+                                <span class="material-symbols-rounded">
+                                    edit
+                                </span>
+                            </ng-template>
+                        </p-button>
+                        <p-button (click)="deleteUser(users)" [style]="{ 'background-color': 'var(--red-500)', 'border':'none'}">
+                            <ng-template pTemplate="icon">
+                                <span class="material-symbols-rounded">
+                                    delete
+                                </span>
+                            </ng-template>
+                        </p-button>
+                    </div>
+                    
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                En total hay {{users ? users.length : 0 }} usuarios.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<p-confirmDialog [style]="{width: 'auto', height: 'auto'}" acceptLabel="Eliminar" acceptIcon="material-symbols-rounded delete_forever" rejectLabel="Cancelar" acceptButtonStyleClass="p-button-danger" rejectIcon="material-symbols-rounded close" defaultFocus="reject"></p-confirmDialog>

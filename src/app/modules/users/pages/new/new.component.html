@@ -1,0 +1,39 @@
+<div class="flex align-content-center justify-content-center mt-4 md:mt-6 lg:mt-8">
+    <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+        <div class="text-center mb-5">
+            <div class="text-900 text-6xl font-medium mb-3">Crear Usuario</div>
+        </div>
+    
+        <div>
+            <form [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
+            <div class="formgrid grid">
+                <div class="field col">
+                    <label for="fullname" class="block text-900 font-medium mb-2">Nombre Completo</label>
+                    <input formControlName="full_name" id="fullname" type="text" pInputText class="w-full">
+                </div>
+            </div>
+            <div class="formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label for="username" class="block text-900 font-medium mb-2">Nombre de Usuario</label>
+                    <input formControlName="username" id="username" type="text" pInputText class="w-full">
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="studentcode" class="block text-900 font-medium mb-2">Código de Estudiante</label>
+                    <input formControlName="student_code" id="studentcode" type="text" pInputText class="w-full">
+                </div>
+            </div>
+            <label for="email1" class="block text-900 font-medium mb-2">Correo</label>
+            <input id="email1" formControlName="email" type="text" placeholder="Correo electrónico" pInputText class="w-full mb-3">
+
+            <label for="password" class="block text-900 font-medium mb-2">Contraseña</label>
+            <p-password inputId="password" formControlName="password" [toggleMask]="true" styleClass="w-full mb-3" promptLabel="Contraseña" inputStyleClass="w-full" [feedback]="false" placeholder="Contraseña"></p-password>
+    
+            <div class="flex align-content-center justify-content-center">
+                <button type="submit" pButton label="Crear" icon="material-symbols-rounded person_addmd" class="w-auto mt-3" [style]="{'background-color':'var(--green-500)', 'border':'none'}"></button>
+                <button pButton label="Cancelar" class="w-auto mt-3 ml-3" icon="material-symbols-rounded close" routerLink="/admin/users" [style]="{'background-color':'var(--red-500)', 'border':'none'}"></button>
+            </div>
+            </form>
+        </div>
+    </div> 
+    
+</div>

@@ -1,0 +1,45 @@
+:host ::ng-deep .p-menubar{
+    background-color: white;
+    border: none;
+    margin: 0;
+    padding-right: 16px;
+    padding-left: 16px;
+}
+
+:host ::ng-deep .login::before{
+    content: "login";
+}
+
+:host ::ng-deep .logout::before{
+    content: "login";
+}
+
+:host ::ng-deep .account_box::before{
+    content: "account_box";
+}
+
+:host ::ng-deep .home::before{
+    content: "home";
+}
+
+:host ::ng-deep .content_copy::before{
+    content: "content_copy";
+}
+
+:host ::ng-deep .logout::before{
+    content: "logout";
+}
+
+:host ::ng-deep .account_circle::before{
+    content: "account_circle";
+}
+
+:host ::ng-deep .admin_panel_settings::before{
+    content: "admin_panel_settings";
+}
+
+:host ::ng-deep .p-button-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
