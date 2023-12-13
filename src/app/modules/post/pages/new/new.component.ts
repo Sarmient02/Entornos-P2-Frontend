@@ -130,7 +130,7 @@ export class NewComponent {
           this.postId = data;
           this.uploadFiles().then(() => {
             // Subidas de archivos completadas
-            this.router.navigate(['/post/view/', this.postId]);
+            this.router.navigate(['/posts/view/', this.postId]);
           });
           setTimeout(() => {
             this.form.reset();
